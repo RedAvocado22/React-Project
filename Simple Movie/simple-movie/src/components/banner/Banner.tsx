@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fetcher } from "../../fetcher";
+import { fetcher } from "../../config";
 import useSWR from "swr";
 import { Movie, Genre } from "../../types/Movie";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -23,7 +23,7 @@ const Banner = () => {
 
     const movies = movieList?.results || [];
     const genres = genreList?.genres || [];
-    // console.log(movies);
+    // console.log(genres);
 
     return (
         <section className="banner page-container h-[650px] mb-20">

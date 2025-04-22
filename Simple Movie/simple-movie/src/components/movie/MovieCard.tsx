@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Movie } from "../../types/Movie";
 
 interface MovieCardProps {
@@ -5,6 +6,8 @@ interface MovieCardProps {
 }
 
 const MovieCard = ({ item }: MovieCardProps) => {
+    const navigate = useNavigate();
+
     return (
         <div className="movie-card flex flex-col rounded-lg p-3 bg-slate-800 text-white h-full select-none">
             <img
@@ -20,7 +23,10 @@ const MovieCard = ({ item }: MovieCardProps) => {
                     <span>{new Date(item.release_date).getFullYear()}</span>
                     <span>{item.vote_average}</span>
                 </div>
-                <button className="py-3 px-6 rounded-lg capitalize bg-primary w-full mt-auto">
+                <button
+                    className="py-3 px-6 rounded-lg capitalize bg-primary w-full mt-auto cursor-pointer"
+                    onClick={() => navigate(`/movies/${item.id}`)}
+                >
                     Watch now
                 </button>
             </div>

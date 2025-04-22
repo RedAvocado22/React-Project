@@ -1,37 +1,35 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Main from "./components/layout/Main";
+import Home from "./pages/Home";
 import Banner from "./components/banner/Banner";
-import MovieList from "./components/movie/MovieList";
+import Movies from "./pages/Movies";
+import MovieDetails from "./pages/MovieDetails";
 
 export default function App() {
     return (
         <>
-            <header className="header flex items-center justify-center gap-x-5 text-white py-10 mb-10">
-                <span className="text-primary">Home</span>
-                <span>Movies</span>
-            </header>
-
-            <Banner></Banner>
-
-            <section className="movies-layout page-container mb-20">
-                <h2 className="capitalize text-white mb-5 text-3xl font-bold">
-                    Now playing
-                </h2>
-                <MovieList></MovieList>
-            </section>
-
-            <section className="movies-layout page-container mb-20">
-                <h2 className="capitalize text-white mb-5 text-3xl font-bold">
-                    Top rated
-                </h2>
-                <MovieList type="top_rated"></MovieList>
-            </section>
-
-            <section className="movies-layout page-container mb-20">
-                <h2 className="capitalize text-white mb-5 text-3xl font-bold">
-                    Trending
-                </h2>
-                <MovieList type="popular"></MovieList>
-            </section>
+            <Routes>
+                <Route path="/" element={<Main></Main>}>
+                    <>
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <Banner></Banner>
+                                    <Home></Home>
+                                </>
+                            }
+                        ></Route>
+                    </>
+                    <Route path="*" element={<div>404 Not Found</div>}></Route>
+                    <Route path="/movies" element={<Movies></Movies>}></Route>
+                    <Route
+                        path="/movies/:movieId"
+                        element={<MovieDetails></MovieDetails>}
+                    ></Route>
+                </Route>
+            </Routes>
         </>
     );
 }
