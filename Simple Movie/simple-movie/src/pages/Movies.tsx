@@ -3,6 +3,7 @@ import { Movie } from "../types/Movie";
 import { api_key, fetcher } from "../config";
 import useSWR from "swr";
 import { useState } from "react";
+import ReactPaginate from "react-paginate";
 
 const Movies = () => {
     const [filter, setFilter] = useState("");
@@ -58,28 +59,42 @@ const Movies = () => {
                     />
                 </div>
             </div>
+            {isLoading && (
+                <div className="w-10 h-10 rounded-full border-4 border-t-4 border-primary animate-spin border-t-transparent mx-auto"></div>
+            )}
             <div className="grid grid-cols-4 gap-10">
                 {movies.length > 0 &&
                     movies.map((item: Movie) => (
                         <MovieCard key={item.id} item={item}></MovieCard>
                     ))}
             </div>
-            <div className="w-full text-center mt-10 flex gap-2 justify-center align-center">
-                {Array(10)
-                    .fill(0)
-                    .map((_, i) => (
-                        <button
-                            key={i + 1}
-                            onClick={() => handlePageChange(i + 1)}
-                            className={`px-4 py-2 ${
-                                url.includes(`page=${i + 1}`)
-                                    ? "bg-primary"
-                                    : "bg-slate-800"
-                            } text-white rounded-lg`}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
+            <div className="mt-10"></div>
+            <div className="text-white">
+                <ReactPaginate
+                    previousLabel={"Previous"}
+                    nextLabel={"Next"}
+                    pageCount={
+                        data?.total_pages > 500 ? 500 : data?.total_pages || 10
+                    }
+                    pageRangeDisplayed={5}
+                    onPageChange={({ selected }) =>
+                        handlePageChange(selected + 1)
+                    }
+                    containerClassName={
+                        "flex gap-2 justify-center items-center"
+                    }
+                    previousClassName={
+                        "px-4 py-2 bg-slate-800 text-white rounded-lg cursor-pointer"
+                    }
+                    nextClassName={
+                        "px-4 py-2 bg-slate-800 text-white rounded-lg"
+                    }
+                    pageClassName={
+                        "px-4 py-2 bg-slate-800 text-white rounded-lg"
+                    }
+                    activeClassName={"!bg-primary"}
+                    disabledClassName={"opacity-50 cursor-not-allowed"}
+                />
             </div>
         </div>
     );

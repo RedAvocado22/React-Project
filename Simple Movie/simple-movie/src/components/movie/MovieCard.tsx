@@ -17,7 +17,7 @@ const MovieCard = ({ item }: MovieCardProps) => {
             />
             <div className="flex flex-col flex-1">
                 <h3 className="text-xl font-bold mb-3 h-14 line-clamp-2 overflow-hidden">
-                    {item.title}
+                    <a href={`/movies/${item.id}`}>{item.title}</a>
                 </h3>
                 <div className="flex items-center justify-between opacity-50 text-sm mb-5">
                     <span>{new Date(item.release_date).getFullYear()}</span>

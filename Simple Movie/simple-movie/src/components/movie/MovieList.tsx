@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieCard from "./MovieCard";
 import useSWR from "swr";
-import { api_key, fetcher } from "../../config";
+import { API, fetcher } from "../../config";
 import { Movie } from "../../types/Movie";
 import "swiper/css";
 
@@ -11,10 +11,7 @@ import "swiper/css";
 const MovieList = ({ type = "now_playing" }) => {
     const [movies, setMovies] = useState<Movie[]>([]);
 
-    const { data } = useSWR(
-        `https://api.themoviedb.org/3/movie/${type}?api_key=${api_key}`,
-        fetcher
-    ); 
+    const { data } = useSWR(API.getMovies(type), fetcher);
 
     useEffect(() => {
         if (data) {

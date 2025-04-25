@@ -6,6 +6,7 @@ import Banner from "./components/banner/Banner";
 import Movies from "./pages/Movies";
 import MovieDetails from "./pages/MovieDetails";
 
+
 export default function App() {
     return (
         <>

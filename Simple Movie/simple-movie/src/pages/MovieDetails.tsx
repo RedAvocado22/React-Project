@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
-import { api_key, fetcher } from "../config";
+import { API, api_key, fetcher } from "../config";
 import { Swiper, SwiperSlide } from "swiper/react";
 import MovieCard from "../components/movie/MovieCard";
 import { Genre, Movie } from "../types/Movie";
@@ -18,13 +18,13 @@ interface Cast {
 const MovieDetails = () => {
     const { movieId } = useParams();
 
-    const { data, error, isLoading } = useSWR(
-        `https://api.themoviedb.org/3/movie/${movieId}?api_key=${api_key}`,
+    const { data } = useSWR(
+        movieId ? API.getMovieDetails(parseInt(movieId)) : null,
         fetcher
     );
 
     const { data: videoData } = useSWR(
-        `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${api_key}`,
+        movieId ? API.getMovieVideos(parseInt(movieId)) : null,
         fetcher
     );
 
@@ -35,7 +35,9 @@ const MovieDetails = () => {
                 <div
                     className="w-full h-full bg-cover bg-no-repeat bg-center"
                     style={{
-                        backgroundImage: `url(https://image.tmdb.org/t/p/original/${data?.backdrop_path})`,
+                        backgroundImage: `url(${API.getImage(
+                            data?.backdrop_path
+                        )})`,
                     }}
                 ></div>
             </div>
@@ -80,7 +82,7 @@ const MovieDetails = () => {
 function MovieCredits() {
     const { movieId } = useParams();
     const { data } = useSWR(
-        `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${api_key}`,
+        movieId ? API.getMovieCredits(parseInt(movieId)) : null,
         fetcher
     );
     if (!data?.cast || data?.cast.length <= 0) return null;
@@ -129,7 +131,7 @@ function MovieCredits() {
 function MovieSimilar() {
     const { movieId } = useParams();
     const { data } = useSWR(
-        `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${api_key}`,
+        movieId ? API.getMovieSimilar(parseInt(movieId)) : null,
         fetcher
     );
     console.log(data);
