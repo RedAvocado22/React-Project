@@ -1,8 +1,10 @@
+import Banner from "../components/banner/Banner";
 import MovieList from "../components/movie/MovieList";
 
 const Home = () => {
     return (
         <>
+            <Banner></Banner>
             <section className="movies-layout page-container mb-20">
                 <h2 className="capitalize text-white mb-5 text-3xl font-bold">
                     Now playing

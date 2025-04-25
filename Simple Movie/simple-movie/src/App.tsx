@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Main from "./components/layout/Main";
-import Home from "./pages/Home";
-import Banner from "./components/banner/Banner";
-import Movies from "./pages/Movies";
-import MovieDetails from "./pages/MovieDetails";
+import { lazy } from "react";
 
+const Home = lazy(() => import("./pages/Home"));
+const Movies = lazy(() => import("./pages/Movies"));
+const MovieDetails = lazy(() => import("./pages/MovieDetails"));
 
 export default function App() {
     return (
@@ -13,15 +13,7 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<Main></Main>}>
                     <>
-                        <Route
-                            path="/"
-                            element={
-                                <>
-                                    <Banner></Banner>
-                                    <Home></Home>
-                                </>
-                            }
-                        ></Route>
+                        <Route path="/" element={<Home></Home>}></Route>
                     </>
                     <Route path="*" element={<div>404 Not Found</div>}></Route>
                     <Route path="/movies" element={<Movies></Movies>}></Route>
