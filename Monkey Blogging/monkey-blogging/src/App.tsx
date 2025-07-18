@@ -8,7 +8,7 @@ function App() {
             <AuthProvider>
                 <Routes>
                     <Route
-                        path="/sign-up"
+                        path="/register"
                         element={<Register></Register>}
                     ></Route>
                 </Routes>

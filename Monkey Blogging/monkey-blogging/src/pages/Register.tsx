@@ -12,10 +12,8 @@ import { useEffect, useState } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { auth, db } from "../firebase/config";
+import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
 
 const RegisterPageStyles = styled.div`
     min-height: 100vh;
@@ -59,12 +57,13 @@ interface RegisterFormData {
 
 const Register = () => {
     const navigate = useNavigate();
+    const { register: registerUser } = useAuth();
 
     const {
         control,
         handleSubmit,
         formState: { errors, isValid, isSubmitting },
-        watch,
+        // watch,
     } = useForm({
         mode: "onBlur",
         resolver: yupResolver(schema),
@@ -79,24 +78,7 @@ const Register = () => {
         if (!isValid) return;
 
         try {
-            const userCredential = await createUserWithEmailAndPassword(
-                auth,
-                data.email,
-                data.password
-            );
-
-            await updateProfile(userCredential.user, {
-                displayName: data.fullname,
-            });
-
-            const colRef = collection(db, "users");
-            await addDoc(colRef, {
-                fullname: data.fullname,
-                email: data.email,
-                uid: userCredential.user.uid,
-                createdAt: new Date(),
-            });
-
+            await registerUser(data.fullname, data.email, data.password);
             toast.success("Register successfully!");
             navigate("/");
         } catch (error: any) {
